@@ -14,16 +14,19 @@ def main():
     print("Step 1: Initial Key Generation")
     print("-" * 50)
     key = np.random.randint(2, size=int((3*n)/2))
+    key_str = '[' + ' '.join(str(bit) for bit in key) + ']'
+    print(f"Initial non privacy amplified key: {key_str}\n")
+    
     privacyamplifiedkey = privacy_amp(key)
     
-    print(f"Generated key length: {len(privacyamplifiedkey)} bits")
+    print(f"Privacy Amplified key length: {len(privacyamplifiedkey)} bits")
     key_str = '[' + ' '.join(str(bit) for bit in privacyamplifiedkey) + ']'
-    print(f"Initial key: {key_str}\n")
+    print(f"Initial privacy amplified key: {key_str}\n")
     
     print("Step 2: Quantum State Preparation")
     print("-" * 50)
     sharedkey = ec.encode_key(privacyamplifiedkey)
-    print(f"Encoded quantum state length: {len(sharedkey)} qubits")
+    print(f"Encoded(for css error correction) quantum state length: {len(sharedkey)} qubits")
     
     m = len(sharedkey)
     sender_basis = np.random.randint(2, size=len(sharedkey))
