@@ -56,19 +56,4 @@ def noise(quantum_states, noise_rate=0.05):
         noisy_states.append(noisy_circuit)
     return noisy_states
 
-def detect_eavesdropping(alice_bits, bob_bits, sample_size=None):
-    if sample_size is None:
-        sample_size = min(20, len(bob_bits)//4)
-    check_positions = np.random.choice(range(len(bob_bits)), sample_size, replace=False)
-    
-    alice_sample = [alice_bits[i] for i in check_positions]
-    bob_sample = [bob_bits[i] for i in check_positions]
-    
-    errors = sum(a != b for a, b in zip(alice_sample, bob_sample))
-    error_rate = errors / sample_size
-    
-    remaining_positions = [i for i in range(len(bob_bits)) if i not in check_positions]
-    alice_final = [alice_bits[i] for i in remaining_positions]
-    bob_final = [bob_bits[i] for i in remaining_positions]
-    
-    return error_rate, alice_final, bob_final
+

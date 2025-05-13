@@ -2,7 +2,7 @@
 import numpy as np
 from quantum_operations import encode, decode, run_circuit
 from key_processing import privacy_amp, remove_garbage
-from security import eve, noise, detect_eavesdropping
+from security import eve, noise
 from BB84ErrorCorrection import BB84ErrorCorrection
 
 def main():
@@ -34,13 +34,12 @@ def main():
     print("Step 3: Quantum Channel Transmission")
     print("-" * 50)
     # Simulate Eve's intervention
-    intercepted_publickey = eve(m, publickey, 0.1)
+    intercepted_publickey = eve(m, publickey, 0.05)
     
-    # Add channel noise
-    received_publickey = noise(intercepted_publickey, 0.1)
+    received_publickey = noise(intercepted_publickey, 0.05)
     print("Simulated channel conditions:")
-    print("- Eavesdropping rate: 10%")
-    print("- Channel noise rate: 10%\n")
+    print("- Eavesdropping rate: 5%")
+    print("- Channel noise rate: 5%\n")
     
     print("Step 4: Measurement and Key Recovery")
     print("-" * 50)
@@ -55,7 +54,8 @@ def main():
     print("-" * 50)
     receiver_key = ec.decode_key(decodedkey)
     error_positions = ec.identify_errors(decodedkey)
-    print(f"Detected errors at positions: {error_positions[:10]}... (showing first 10 positions)")
+    error_str = '[' + ' '.join(str(bit) for bit in error_positions) + ']'
+    print(f"Detected errors at positions: {error_str}")
     print(f"Total errors detected: {len(error_positions)}\n")
     
     sender_key = privacyamplifiedkey
@@ -69,16 +69,13 @@ def main():
         print(f"Bit match rate: {match_rate:.2%}")
         print(f"Successfully matched bits: {matches} out of {len(sender_key)}")
         print(f"Final key: {receiver_key}")
+        key_str = '[' + ' '.join(str(bit) for bit in sender_key) + ']'
+        print(f"Init key : {key_str}\n")
     else:
         print("Error: Key lengths do not match")
         print(f"Sender key length: {len(sender_key)}")
         print(f"Receiver key length: {len(receiver_key)}")
         
-    
-    error_rate, alice_final, bob_final = detect_eavesdropping(sender_key, receiver_key)
-    print(f"\nFinal security analysis:")
-    print(f"- Quantum bit error rate (QBER): {error_rate:.2%}")
-    print(f"- Final secure key length: {len(alice_final)} bits")
     
 
 
