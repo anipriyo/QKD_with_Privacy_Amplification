@@ -1,11 +1,9 @@
-
 import numpy as np
 from qiskit import QuantumCircuit, transpile
 from qiskit_aer import AerSimulator
 
-n = 100
 
-def encode(bits, basis):
+def encode(bits, basis, n):
     publickey = []
     for i in range(n):
         qc = QuantumCircuit(1, 1)
@@ -24,7 +22,8 @@ def encode(bits, basis):
         publickey.append(qc)
     return publickey
 
-def decode(msg, basis):
+
+def decode(msg, basis, n):
     measurements = []
     for q in range(n):
         if basis[q] == 0:
@@ -36,6 +35,7 @@ def decode(msg, basis):
         measured_bit = next(iter(counts))
         measurements.append(int(measured_bit))
     return measurements
+
 
 def run_circuit(circuit, shots=1):
     simulator = AerSimulator()

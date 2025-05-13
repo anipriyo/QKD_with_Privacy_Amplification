@@ -3,12 +3,12 @@ import numpy as np
 from qiskit import QuantumCircuit
 from quantum_operations import run_circuit
 
-n = 100
 
-def eve(quantum_states, eavesdropping_rate=0.3):
+
+def eve(n,quantum_states, eavesdropping_rate=0.3):
     intercepted_states = []
     eve_basis = np.random.randint(2, size=n)
-    print(eve_basis)
+    # print(eve_basis)
 
     intercepted_indices = np.random.choice(n, size=int(n * eavesdropping_rate), replace=False)
     print(f"Eve intercepts {len(intercepted_indices)} qubits at positions:", intercepted_indices)
