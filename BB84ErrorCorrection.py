@@ -73,6 +73,7 @@ class BB84ErrorCorrection:
 
     def decode_key(self, received_key):
         """Decode and correct errors in received key"""
+        received_key = np.array(received_key)  # Convert list to NumPy array
         blocks = received_key.reshape(-1, self.css.n1)
         decoded_blocks = [self.css.decode_block(block) for block in blocks]
         decoded_key = np.concatenate(decoded_blocks)
