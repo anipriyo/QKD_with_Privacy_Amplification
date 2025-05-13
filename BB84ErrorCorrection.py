@@ -81,6 +81,7 @@ class BB84ErrorCorrection:
 
     def identify_errors(self, received_key):
         """Identify error positions in received key"""
+        received_key = np.array(received_key)  # Convert list to NumPy array
         blocks = received_key.reshape(-1, self.css.n1)
         error_positions = []
 
