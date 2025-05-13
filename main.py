@@ -6,57 +6,76 @@ from security import eve, noise, detect_eavesdropping
 from BB84ErrorCorrection import BB84ErrorCorrection
 
 def main():
+    print("\n=== BB84 Quantum Key Distribution Protocol Demonstration ===\n")
+    
     n = 100
     ec = BB84ErrorCorrection()
-    # Generate initial key
+    
+    print("Step 1: Initial Key Generation")
+    print("-" * 50)
     key = np.random.randint(2, size=int((3*n)/2))
     privacyamplifiedkey = privacy_amp(key)
-    print(f"Initial key : {privacyamplifiedkey}")
-    # Encode the key
+    print(f"Generated key length: {len(privacyamplifiedkey)} bits")
+    print(f"Initial key: {privacyamplifiedkey[:20]}... (showing first 20 bits)\n")
+    
+    print("Step 2: Quantum State Preparation")
+    print("-" * 50)
     sharedkey = ec.encode_key(privacyamplifiedkey)
-    print(f"length of shared key : {len(sharedkey)}")
-    m=len(sharedkey)
-    # Sender's basis
+    print(f"Encoded quantum state length: {len(sharedkey)} qubits")
+    
+    m = len(sharedkey)
     sender_basis = np.random.randint(2, size=len(sharedkey))
-    print(f"Sender basis : {sender_basis}")
-    # Encode quantum states
-    publickey = encode(sharedkey, sender_basis,m)
-    print(f"Public key length : {len(publickey)}")
-    # Simulate Eve's intervention (0 means no intervention)
-    intercepted_publickey = eve(m,publickey, 0.1)
+    print(f"Alice's basis choice: {sender_basis[:20]}... (showing first 20 basis)\n")
     
-    # Add noise (0 means no noise)
+    publickey = encode(sharedkey, sender_basis, m)
+    
+    print("Step 3: Quantum Channel Transmission")
+    print("-" * 50)
+    # Simulate Eve's intervention
+    intercepted_publickey = eve(m, publickey, 0.1)
+    
+    # Add channel noise
     received_publickey = noise(intercepted_publickey, 0.1)
+    print("Simulated channel conditions:")
+    print("- Eavesdropping rate: 10%")
+    print("- Channel noise rate: 10%\n")
     
-    # Receiver's operations
+    print("Step 4: Measurement and Key Recovery")
+    print("-" * 50)
     receiver_basis_guess = np.random.randint(2, size=len(received_publickey))
-    print(f"Receiver basis : {receiver_basis_guess}")
-    decodedkey = decode(received_publickey, receiver_basis_guess,m)
-    print(f"Decoded key : {decodedkey}")
-    # Process keys
+    print(f"Bob's basis choice: {receiver_basis_guess[:20]}... (showing first 20 basis)")
     
-    receiver_key =ec.decode_key(decodedkey)
-    print(f"Error Positions : {ec.identify_errors(decodedkey)}")
-    print(f"Receiver key (Error corrected): {receiver_key}")
-    # receiver_key = remove_garbage(sender_basis, receiver_basis_guess, decodedkey)
-    # sender_key = remove_garbage(sender_basis, receiver_basis_guess, sharedkey)
-    sender_key=privacyamplifiedkey
-    # Convert to list of integers for comparison
-    # sender_key = [int(x) for x in sender_key]
+    decodedkey = decode(received_publickey, receiver_basis_guess, m)
+    print(f"Raw decoded key: {decodedkey[:20]}... (showing first 20 bits)\n")
     
-    # Check results
+    print("Step 5: Error Detection and Correction")
+    print("-" * 50)
+    receiver_key = ec.decode_key(decodedkey)
+    error_positions = ec.identify_errors(decodedkey)
+    print(f"Detected errors at positions: {error_positions[:10]}... (showing first 10 positions)")
+    print(f"Total errors detected: {len(error_positions)}\n")
+    
+    sender_key = privacyamplifiedkey
+    
+    print("Step 6: Final Key Analysis")
+    print("-" * 50)
     if len(receiver_key) == len(sender_key):
         matches = sum(r == s for r, s in zip(receiver_key, sender_key))
         match_rate = matches / len(sender_key)
-        print(f"Keys match rate: {match_rate:.2f}")
-        print(f"Number of matching bits: {matches} out of {len(sender_key)}")
+        print(f"Final key length: {len(sender_key)} bits")
+        print(f"Bit match rate: {match_rate:.2%}")
+        print(f"Successfully matched bits: {matches} out of {len(sender_key)}")
     else:
-        print(f"Key lengths do not match: {len(receiver_key)} vs {len(sender_key)}")
+        print("Error: Key lengths do not match")
+        print(f"Sender key length: {len(sender_key)}")
+        print(f"Receiver key length: {len(receiver_key)}")
     
-    # Check for eavesdropping
     error_rate, alice_final, bob_final = detect_eavesdropping(sender_key, receiver_key)
-    print(f"Detected error rate: {error_rate:.2f}")
-    print(f"Final key length: {len(alice_final)}")
+    print(f"\nFinal security analysis:")
+    print(f"- Quantum bit error rate (QBER): {error_rate:.2%}")
+    print(f"- Final secure key length: {len(alice_final)} bits")
+    
+    print("\n=== BB84 Protocol Demonstration Complete ===")
 
 if __name__ == "__main__":
     main()
