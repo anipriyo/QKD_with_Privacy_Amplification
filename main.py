@@ -68,10 +68,12 @@ def main():
         print(f"Final key length: {len(sender_key)} bits")
         print(f"Bit match rate: {match_rate:.2%}")
         print(f"Successfully matched bits: {matches} out of {len(sender_key)}")
+        print(f"Final key: {receiver_key}")
     else:
         print("Error: Key lengths do not match")
         print(f"Sender key length: {len(sender_key)}")
         print(f"Receiver key length: {len(receiver_key)}")
+        
     
     error_rate, alice_final, bob_final = detect_eavesdropping(sender_key, receiver_key)
     print(f"\nFinal security analysis:")
