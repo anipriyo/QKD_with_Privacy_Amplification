@@ -94,7 +94,7 @@ class BB84ErrorCorrection:
                 global_errors = [i * self.css.n1 + pos for pos in block_errors]
                 error_positions.extend(global_errors)
 
-        return sorted(error_positions)
+        return list(sorted(error_positions))  # Convert to regular Python list
 
 def test_error_correction():
     """Test the error correction with arbitrary key length"""
