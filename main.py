@@ -75,7 +75,7 @@ def main():
     print(f"- Quantum bit error rate (QBER): {error_rate:.2%}")
     print(f"- Final secure key length: {len(alice_final)} bits")
     
-    print("\n=== BB84 Protocol Demonstration Complete ===")
+
 
 if __name__ == "__main__":
     main()
