@@ -16,7 +16,8 @@ def main():
     key = np.random.randint(2, size=int((3*n)/2))
     privacyamplifiedkey = privacy_amp(key)
     print(f"Generated key length: {len(privacyamplifiedkey)} bits")
-    print(f"Initial key: {privacyamplifiedkey[:20]}... (showing first 20 bits)\n")
+    key_str = '[' + ' '.join(str(bit) for bit in privacyamplifiedkey[:20]) + ' ...]'
+    print(f"Initial key: {key_str}\n")
     
     print("Step 2: Quantum State Preparation")
     print("-" * 50)
