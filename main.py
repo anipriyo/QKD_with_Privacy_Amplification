@@ -46,16 +46,17 @@ def main():
     
     # Check results
     if len(receiver_key) == len(sender_key):
-        print("Keys match:", receiver_key == sender_key)
+        matches = sum(r == s for r, s in zip(receiver_key, sender_key))
+        match_rate = matches / len(sender_key)
+        print(f"Keys match rate: {match_rate:.2f}")
+        print(f"Number of matching bits: {matches} out of {len(sender_key)}")
     else:
         print(f"Key lengths do not match: {len(receiver_key)} vs {len(sender_key)}")
-    match_percentage = len(receiver_key) / n * 100
-    print(f"Percentage of matching bases: {match_percentage:.2f}%")
     
-    # # Check for eavesdropping
-    # error_rate, alice_final, bob_final = detect_eavesdropping(sender_key, receiver_key)
-    # print(f"Detected error rate: {error_rate:.2f}")
-    # print(f"Final key length: {len(alice_final)}")
+    # Check for eavesdropping
+    error_rate, alice_final, bob_final = detect_eavesdropping(sender_key, receiver_key)
+    print(f"Detected error rate: {error_rate:.2f}")
+    print(f"Final key length: {len(alice_final)}")
 
 if __name__ == "__main__":
     main()
