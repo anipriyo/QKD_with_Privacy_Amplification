@@ -8,7 +8,7 @@ from BB84ErrorCorrection import BB84ErrorCorrection
 def main():
     print("\n=== BB84 Quantum Key Distribution Protocol Demonstration ===\n")
     
-    n = 100
+    n = 20
     ec = BB84ErrorCorrection()
     
     print("Step 1: Initial Key Generation")
@@ -16,7 +16,7 @@ def main():
     key = np.random.randint(2, size=int((3*n)/2))
     privacyamplifiedkey = privacy_amp(key)
     print(f"Generated key length: {len(privacyamplifiedkey)} bits")
-    key_str = '[' + ' '.join(str(bit) for bit in privacyamplifiedkey[:20) + ' ...]'
+    key_str = '[' + ' '.join(str(bit) for bit in privacyamplifiedkey) + ']'
     print(f"Initial key: {key_str}\n")
     
     print("Step 2: Quantum State Preparation")
@@ -26,7 +26,7 @@ def main():
     
     m = len(sharedkey)
     sender_basis = np.random.randint(2, size=len(sharedkey))
-    print(f"Alice's basis choice: {sender_basis[:20]}... (showing first 20 basis)\n")
+    print(f"Alice's basis choice: {sender_basis}\n")
     
     publickey = encode(sharedkey, sender_basis, m)
     
@@ -44,10 +44,11 @@ def main():
     print("Step 4: Measurement and Key Recovery")
     print("-" * 50)
     receiver_basis_guess = np.random.randint(2, size=len(received_publickey))
-    print(f"Bob's basis choice: {receiver_basis_guess[:20]}... (showing first 20 basis)")
+    print(f"Bob's basis choice: {receiver_basis_guess}")
     
     decodedkey = decode(received_publickey, receiver_basis_guess, m)
-    print(f"Raw decoded key: {decodedkey[:20]}... (showing first 20 bits)\n")
+    decoded_str = '[' + ' '.join(str(bit) for bit in decodedkey) + ']'
+    print(f"Raw decoded key: {decoded_str}\n")
     
     print("Step 5: Error Detection and Correction")
     print("-" * 50)
