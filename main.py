@@ -15,6 +15,7 @@ def main():
     print("-" * 50)
     key = np.random.randint(2, size=int((3*n)/2))
     privacyamplifiedkey = privacy_amp(key)
+    
     print(f"Generated key length: {len(privacyamplifiedkey)} bits")
     key_str = '[' + ' '.join(str(bit) for bit in privacyamplifiedkey) + ']'
     print(f"Initial key: {key_str}\n")
