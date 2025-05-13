@@ -65,6 +65,8 @@ class BB84ErrorCorrection:
     def encode_key(self, key):
         """Encode a key of arbitrary length"""
         padded_key = self._pad_key(key)
+        # Convert list to numpy array before reshaping
+        padded_key = np.array(padded_key)
         blocks = padded_key.reshape(-1, self.css.k1)
         encoded_blocks = [self.css.encode_block(block) for block in blocks]
         return np.concatenate(encoded_blocks)
