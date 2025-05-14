@@ -1,7 +1,7 @@
 
 import numpy as np
 from quantum_operations import encode, decode, run_circuit
-from key_processing import privacy_amp, remove_garbage
+from key_processing import privacy_amp, remove_garbage , recover_key_with_seed
 from security import eve, noise
 from BB84ErrorCorrection import BB84ErrorCorrection
 
@@ -13,7 +13,10 @@ def main():
     
     print("Step 1: Initial Key Generation")
     print("-" * 50)
-    key = np.random.randint(2, size=int((3*n)/2))
+    # key = np.random.randint(2, size=int((3*n)/2))
+    key=[1, 0 ,0 ,1 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0, 0, 0 ,1 ,1, 0 ,0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1]
+
+    
     key_str = '[' + ' '.join(str(bit) for bit in key) + ']'
     print(f"Initial non privacy amplified key: {key_str}\n")
     
@@ -78,6 +81,9 @@ def main():
         print("Error: Key lengths do not match")
         print(f"Sender key length: {len(sender_key)}")
         print(f"Receiver key length: {len(receiver_key)}")
+
+    recovered_key = recover_key_with_seed(receiver_key, 1)
+    print(f"Recovered key: {recovered_key}")
         
     
 
