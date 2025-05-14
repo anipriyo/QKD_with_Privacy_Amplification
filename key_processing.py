@@ -27,7 +27,7 @@ def privacy_amp(key, bits_per_block=3, leakage_assumption=1):
 
 
 def recover_key_with_seed(compressed_key, seed_bit, bits_per_block=3):
-    if not compressed_key:
+    if not compressed_key.size:
         return []
 
     recovered_key = [seed_bit]  

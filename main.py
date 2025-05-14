@@ -13,8 +13,8 @@ def main():
     
     print("Step 1: Initial Key Generation")
     print("-" * 50)
-    # key = np.random.randint(2, size=int((3*n)/2))
-    key=[1, 0 ,0 ,1 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0, 0, 0 ,1 ,1, 0 ,0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1]
+    key = np.random.randint(2, size=int((3*n)/2))
+    #key=[1, 0 ,0 ,1 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0, 0, 0 ,1 ,1, 0 ,0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1]
 
     
     key_str = '[' + ' '.join(str(bit) for bit in key) + ']'
@@ -82,9 +82,9 @@ def main():
         print(f"Sender key length: {len(sender_key)}")
         print(f"Receiver key length: {len(receiver_key)}")
 
-    recovered_key = recover_key_with_seed(receiver_key, 1)
-    print(f"Recovered key: {recovered_key}")
-        
+    # recovered_key = recover_key_with_seed(receiver_key, 1)
+    # key_str = '[' + ' '.join(str(bit) for bit in recovered_key) + ']'
+    # print(f"The recovered key from de-hashing is: {key_str}\n")        
     
 
 
