@@ -21,7 +21,7 @@ def main():
     print(f"Initial non privacy amplified key: {key_str}\n")
     
     privacyamplifiedkey = privacy_amp(key)
-    
+    # from here -- just for testing
     print(f"Privacy Amplified key length: {len(privacyamplifiedkey)} bits")
     key_str = '[' + ' '.join(str(bit) for bit in privacyamplifiedkey) + ']'
     print(f"Initial privacy amplified key: {key_str}\n")
@@ -63,7 +63,7 @@ def main():
     error_str = '[' + ' '.join(str(bit) for bit in error_positions) + ']'
     print(f"Detected errors at positions: {error_str}")
     print(f"Total errors detected: {len(error_positions)}\n")
-    
+    # to here -- just for testing
     sender_key = privacyamplifiedkey
     
     print("Step 6: Final Key Analysis")
