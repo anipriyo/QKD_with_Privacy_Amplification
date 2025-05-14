@@ -120,7 +120,7 @@ class CSSCode:
             raise ValueError(f"Data block must be {self.k2 - self.k1} bits")
 
         # For Steane code, k2-k1 = 2
-        logical_word = np.zeros(4, dtype=int)  # Match G2 dimensions (4,7)
+        logical_word = np.zeros(3, dtype=int)  # Match G2 dimensions (3,7)
         logical_word[self.k1:] = data
 
         # Encode using the second classical code C2
