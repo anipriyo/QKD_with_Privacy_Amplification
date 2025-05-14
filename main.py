@@ -1,19 +1,19 @@
 
 import numpy as np
 from quantum_operations import encode, decode, run_circuit
-from key_processing import privacy_amp, remove_garbage , recover_key_with_seed
+from key_processing import privacy_amp, remove_garbage , recover_key
 from security import eve, noise
 from BB84ErrorCorrection import BB84ErrorCorrection
 
 def main():
     print("\n=== BB84 Quantum Key Distribution Protocol Demonstration ===\n")
     
-    n = 20
+    n = 21
     ec = BB84ErrorCorrection()
     
     print("Step 1: Initial Key Generation")
     print("-" * 50)
-    key = np.random.randint(2, size=int((3*n)/2))
+    key = np.array([1] + list(np.random.randint(2, size=int(n - 1))))
     #key=[1, 0 ,0 ,1 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0, 0, 0 ,1 ,1, 0 ,0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1]
 
     
@@ -82,9 +82,9 @@ def main():
         print(f"Sender key length: {len(sender_key)}")
         print(f"Receiver key length: {len(receiver_key)}")
 
-    # recovered_key = recover_key_with_seed(receiver_key, 1)
-    # key_str = '[' + ' '.join(str(bit) for bit in recovered_key) + ']'
-    # print(f"The recovered key from de-hashing is: {key_str}\n")        
+    recovered_key = recover_key(receiver_key, 1)
+    key_str = '[' + ' '.join(str(bit) for bit in recovered_key) + ']'
+    print(f"The recovered key from de-hashing is: {key_str}\n")        
     
 
 
